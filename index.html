@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Resolution Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>AI Resolution Tracker</h1>
+        <div class="profile-row">
+          <label for="profileSelect">Profile:</label>
+          <select id="profileSelect">
+            <option value="Monika">Monika</option>
+            <option value="Klaus">Klaus</option>
+          </select>
+        </div>
+        <div class="progress">
+          <div class="progress-meta">
+            <span id="progressText">0/10 completed</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar" aria-hidden="true">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+      </header>
+
+      <section id="weekendList" class="list" aria-label="Weekend list"></section>
+
+      <footer class="footer">
+        <button id="resetBtn" class="danger">Reset all</button>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
