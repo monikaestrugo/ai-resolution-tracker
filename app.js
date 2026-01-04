@@ -31,20 +31,35 @@ function saveProfile(profile) {
   localStorage.setItem(PROFILE_KEY, profile);
 }
 
+function normalizeState(raw) {
+  const parsed = JSON.parse(raw);
+  if (!Array.isArray(parsed) || parsed.length !== TOTAL) {
+    return defaultState();
+  }
+  return parsed.map((item, i) => ({
+    id: i + 1,
+    done: !!item.done,
+    notes: String(item.notes || ""),
+    links: String(item.links || "")
+  }));
+}
+
 function loadState(profile) {
   const raw = localStorage.getItem(storageKeyFor(profile));
-  if (!raw) return defaultState();
-  try {
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length !== TOTAL) {
+  if (raw) {
+    try {
+      return normalizeState(raw);
+    } catch {
       return defaultState();
     }
-    return parsed.map((item, i) => ({
-      id: i + 1,
-      done: !!item.done,
-      notes: String(item.notes || ""),
-      links: String(item.links || "")
-    }));
+  }
+
+  const legacyRaw = localStorage.getItem(STORAGE_KEY);
+  if (!legacyRaw) return defaultState();
+  try {
+    const migrated = normalizeState(legacyRaw);
+    saveState(profile, migrated);
+    return migrated;
   } catch {
     return defaultState();
   }
